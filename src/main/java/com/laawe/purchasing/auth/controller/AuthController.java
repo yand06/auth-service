@@ -3,13 +3,11 @@ package com.laawe.purchasing.auth.controller;
 import com.laawe.purchasing.auth.model.request.LoginRequest;
 import com.laawe.purchasing.auth.model.request.LogoutRequest;
 import com.laawe.purchasing.auth.model.response.GenericApiResponse;
-import com.laawe.purchasing.auth.model.response.LoginResponse;
 import com.laawe.purchasing.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,13 +23,13 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping(LOGIN_API)
-    public ResponseEntity<GenericApiResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(authService.login(loginRequest));
+    public ResponseEntity<GenericApiResponse<?>> login(@Valid @RequestBody LoginRequest loginRequest) {
+        return ResponseEntity.ok(authService.getLogin(loginRequest));
     }
 
     @PostMapping(LOGOUT_API)
     public ResponseEntity<GenericApiResponse<?>> logout(@Valid @RequestBody LogoutRequest logoutRequest, HttpServletRequest httpServletRequest) {
-        return ResponseEntity.ok(authService.logout(logoutRequest, httpServletRequest));
+        return ResponseEntity.ok(authService.getLogout(logoutRequest, httpServletRequest));
     }
 
 }

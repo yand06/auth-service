@@ -5,6 +5,7 @@ public class AppConstant {
     public static final String BASE_API_URL = "/api/v1/auth";
     public static final String LOGIN_API = "/user/login";
     public static final String LOGOUT_API = "/user/logout";
+    public static final String PROFILE_API = "/user/me";
 
     public static final String PUBLIC = "public";
 
@@ -26,7 +27,10 @@ public class AppConstant {
     public static final String ROLE_DESCRIPTION = "role_description";
 
     public static final String HEADER_BEARER = "Bearer ";
+    public static final String HEADER_X_USER_ID = "X-User-ID";
     public static final String HEADER_AUTHORIZATION = "Authorization ";
     public static final String BL_PREFIX = "BLACKLIST:";
     public static final String EMPTY = "";
+    public static final String SUCCESS_STATUS = "SUCCESS";
+    public static final String ERROR_STATUS = "ERROR";
 }

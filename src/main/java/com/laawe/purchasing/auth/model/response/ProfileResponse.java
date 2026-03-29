@@ -1,21 +1,17 @@
 package com.laawe.purchasing.auth.model.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.util.UUID;
 
 @Data
 @Accessors(chain = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LoginResponse {
-    private String userIdf;
+public class ProfileResponse {
+    private UUID userIdf;
     private String userName;
     private String userFullName;
-    private String userRole;
-    private String token;
-    private Long userExpiresIn;
+    private String userRoleName;
 }

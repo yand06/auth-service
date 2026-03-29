@@ -2,6 +2,7 @@ package com.laawe.purchasing.auth.service.impl;
 
 import com.laawe.purchasing.auth.config.constant.ResponseCode;
 import com.laawe.purchasing.auth.controller.handler.BusinessException;
+import com.laawe.purchasing.auth.model.response.TokenInfo;
 import com.laawe.purchasing.auth.service.JWTService;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -35,7 +36,7 @@ public class JWTServiceImpl implements JWTService {
     private final StringRedisTemplate redisTemplate;
 
     @Override
-    public String generateToken(String username, Map<String, Object> claims) {
+    public TokenInfo generateToken(String username, Map<String, Object> claims) {
         try {
             JWSSigner signer = new MACSigner(secret);
 
@@ -48,10 +49,12 @@ public class JWTServiceImpl implements JWTService {
                     .claim("user_id", claims.get("user_id"))
                     .build();
 
+            Long expirationTime = claimsSet.getExpirationTime().getTime();
+
             SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
             signedJWT.sign(signer);
 
-            return signedJWT.serialize();
+            return new TokenInfo(signedJWT.serialize(), expirationTime);
         } catch (Exception e) {
             throw new RuntimeException("FAILED TO GENERATE TOKEN ---", e);
         }

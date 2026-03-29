@@ -7,12 +7,12 @@ import com.laawe.purchasing.auth.model.request.LoginRequest;
 import com.laawe.purchasing.auth.model.request.LogoutRequest;
 import com.laawe.purchasing.auth.model.response.GenericApiResponse;
 import com.laawe.purchasing.auth.model.response.LoginResponse;
+import com.laawe.purchasing.auth.model.response.TokenInfo;
 import com.laawe.purchasing.auth.repository.UserRepository;
 import com.laawe.purchasing.auth.service.AuthService;
 import com.laawe.purchasing.auth.service.JWTService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ public class AuthServiceImpl implements AuthService {
     private final JWTService jwtService;
 
     @Override
-    public GenericApiResponse<LoginResponse> login(LoginRequest loginRequest) {
+    public GenericApiResponse<LoginResponse> getLogin(LoginRequest loginRequest) {
         // 1. Find user in Database
         M_User user = userRepository.findByUsername(loginRequest.getUsername())
                 .orElseThrow(() -> new BusinessException(ResponseCode.USER_NOT_FOUND, "USER NOT FOUND"));
@@ -47,21 +47,21 @@ public class AuthServiceImpl implements AuthService {
         );
 
         // 5. Generate Token
-        String token = jwtService.generateToken(user.getUsername(), claims);
-        LoginResponse data = LoginResponse.builder()
-                .userIdf(user.getIdf().toString())
-                .userName(user.getUsername())
-                .userFullName(user.getFullName())
-                .userRole(user.getRole().getName())
-                .token(token)
-                .build();
+        TokenInfo token = jwtService.generateToken(user.getUsername(), claims);
+        LoginResponse data = new LoginResponse()
+                .setUserIdf(user.getIdf().toString())
+                .setUserName(user.getUsername())
+                .setUserFullName(user.getFullName())
+                .setUserRole(user.getRole().getName())
+                .setToken(token.token())
+                .setUserExpiresIn(token.expiresTime());
 
         // 6. Return response DTO
         return GenericApiResponse.success(data, "LOGIN SUCCESSFULLY");
     }
 
     @Override
-    public GenericApiResponse<Object> logout(LogoutRequest logoutRequest, HttpServletRequest httpServletRequest) {
+    public GenericApiResponse<Object> getLogout(LogoutRequest logoutRequest, HttpServletRequest httpServletRequest) {
         jwtService.revokeAuthJwtToken(httpServletRequest);
         return GenericApiResponse.success(null, "LOGOUT SUCCESSFULLY");
     }
