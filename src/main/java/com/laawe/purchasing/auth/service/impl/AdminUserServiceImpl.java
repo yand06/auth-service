@@ -58,6 +58,10 @@ public class AdminUserServiceImpl implements AdminUserService {
             throw new BusinessException(ResponseCode.EMAIL_EXISTS, Translator.toLocale(ResponseCode.EMAIL_EXISTS.getMessageKey()));
         }
 
+        if(userRepository.existsByPhoneNumber(userRegisterRequest.getUserPhoneNumber())){
+            throw new BusinessException(ResponseCode.PHONE_NUMBER_EXISTS, Translator.toLocale(ResponseCode.PHONE_NUMBER_EXISTS.getMessageKey()));
+        }
+
         M_Role role = roleRepository.findByName(userRegisterRequest.getUserRole())
                 .orElseThrow(() -> new BusinessException(ResponseCode.ROLE_NOT_FOUND, Translator.toLocale(ResponseCode.ROLE_NOT_FOUND.getMessageKey())));
 

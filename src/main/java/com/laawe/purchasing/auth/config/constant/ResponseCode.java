@@ -21,6 +21,7 @@ public enum ResponseCode {
     USER_NOT_ACTIVE(HttpStatus.BAD_REQUEST, "02","response.code.user_not_active"),
     USERNAME_EXISTS(HttpStatus.BAD_REQUEST, "02","response.code.user_name_exists"),
     EMAIL_EXISTS(HttpStatus.BAD_REQUEST, "02","response.code.email_exists"),
+    PHONE_NUMBER_EXISTS(HttpStatus.BAD_REQUEST, "02","response.code.phone_number_exists"),
 
     // --- SERVER ERRORS ---
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "99", "response.code.internal_server_error");

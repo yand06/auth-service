@@ -17,6 +17,7 @@ public interface UserRepository extends JpaRepository<M_User, Long> {
     Optional<M_User> findByIdf(UUID idf);
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
+    boolean existsByPhoneNumber(String phoneNumber);
 
     @Query("SELECT u FROM M_User u WHERE u.username = :identifier OR u.email = :identifier OR u.phoneNumber = :identifier")
     Optional<M_User> findByIdentifier(@Param("identifier") String identifier);
