@@ -7,21 +7,26 @@ public class AppConstant {
     public static final String LOGIN_API = "/user/login";
     public static final String LOGOUT_API = "/user/logout";
     public static final String PROFILE_API = "/user/me";
+    public static final String REGISTER_API = "/user/register";
     public static final String REFRESH_TOKEN_API = "/user/refresh-token";
 
     public static final String PUBLIC = "public";
 
+    /* M_USER TABLE */
     public static final String TABLE_USER = "m_user";
     public static final String USER_ID = "user_id";
     public static final String USER_IDF = "user_idf";
     public static final String USER_USERNAME = "user_username";
+    public static final String USER_PHONE_NUMBER = "user_phone_number";
     public static final String USER_EMAIL = "user_email";
     public static final String USER_PASSWORD_HASH = "user_password_hash";
     public static final String USER_FULL_NAME = "user_full_name";
     public static final String USER_ROLE_ID = "user_role_id";
     public static final String USER_IS_ACTIVE = "user_is_active";
     public static final String USER_CREATED_AT = "user_created_at";
+    public static final String USER_IS_ADMIN = "user_is_admin";
 
+    /* M_ROLE TABLE */
     public static final String TABLE_ROLE = "m_role";
     public static final String ROLE_ID = "role_id";
     public static final String ROLE_IDF = "role_idf";
@@ -37,4 +42,7 @@ public class AppConstant {
     public static final String ERROR_STATUS = "ERROR";
     public static final Long ONE_HOURS_IN_MILLISECONDS = 3600000L;
     public static final Long SEVEN_DAYS_IN_MILLISECONDS = 604800000L;
+
+    public static final String SUPERUSER_PASSWORD = "admin1234";
+    public static final String DEFAULT_PASSWORD = "12345678";
 }

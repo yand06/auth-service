@@ -1,6 +1,7 @@
 package com.laawe.purchasing.auth.service.impl;
 
 import com.laawe.purchasing.auth.config.constant.ResponseCode;
+import com.laawe.purchasing.auth.config.i18n.Translator;
 import com.laawe.purchasing.auth.controller.handler.BusinessException;
 import com.laawe.purchasing.auth.model.entity.M_User;
 import com.laawe.purchasing.auth.model.request.LoginRequest;
@@ -39,12 +40,16 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public GenericApiResponse<LoginResponse> getLogin(LoginRequest loginRequest) {
         // 1. Find user in Database
-        M_User user = userRepository.findByUsername(loginRequest.getUsername())
-                .orElseThrow(() -> new BusinessException(ResponseCode.USER_NOT_FOUND, "USER NOT FOUND"));
+        M_User user = userRepository.findByIdentifier(loginRequest.getIdentifier())
+                .orElseThrow(() -> new BusinessException(ResponseCode.USER_NOT_FOUND, Translator.toLocale(ResponseCode.USER_NOT_FOUND.getMessageKey())));
 
         // 2. Check if password is correct
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            throw new BusinessException(ResponseCode.INVALID_CREDENTIALS);
+            throw new BusinessException(ResponseCode.INVALID_CREDENTIALS, Translator.toLocale(ResponseCode.INVALID_CREDENTIALS.getMessageKey()));
+        }
+
+        if (!user.getIsActive()){
+            throw new BusinessException(ResponseCode.USER_NOT_ACTIVE, Translator.toLocale(ResponseCode.USER_NOT_ACTIVE.getMessageKey()));
         }
 
         // 3. Retrieve the role_name from the Role table
@@ -94,7 +99,7 @@ public class AuthServiceImpl implements AuthService {
         JWTClaimsSet claimsSet = jwtService.validateAndGetClaims(refreshTokenRequest.getRefreshToken());
         String username = claimsSet.getSubject();
         M_User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new BusinessException(ResponseCode.USER_NOT_FOUND, "USER NOT FOUND"));
+                .orElseThrow(() -> new BusinessException(ResponseCode.USER_NOT_FOUND, Translator.toLocale(ResponseCode.USER_NOT_FOUND.getMessageKey())));
 
         Map<String, Object> newClaims = new HashMap<>();
         newClaims.put("user_id", user.getIdf().toString());

@@ -1,6 +1,7 @@
 package com.laawe.purchasing.auth.service.impl;
 
 import com.laawe.purchasing.auth.config.constant.ResponseCode;
+import com.laawe.purchasing.auth.config.i18n.Translator;
 import com.laawe.purchasing.auth.controller.handler.BusinessException;
 import com.laawe.purchasing.auth.model.request.LogoutRequest;
 import com.laawe.purchasing.auth.model.response.TokenInfo;
@@ -142,7 +143,7 @@ public class JWTServiceImpl implements JWTService {
             // 2. Verifikasi tanda tangan menggunakan Secret Key
             JWSVerifier verifier = new MACVerifier(secret.getBytes());
             if (!signedJWT.verify(verifier)) {
-                throw new BusinessException(ResponseCode.UNAUTHORIZED);
+                throw new BusinessException(ResponseCode.UNAUTHORIZED, Translator.toLocale(ResponseCode.UNAUTHORIZED.getMessageKey()));
             }
 
             // 3. Cek apakah token sudah kedaluwarsa

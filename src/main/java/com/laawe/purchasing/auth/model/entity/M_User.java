@@ -25,6 +25,9 @@ public class M_User {
     @Column(name = USER_USERNAME, unique = true, nullable = false)
     private String username;
 
+    @Column(name = USER_PHONE_NUMBER, unique = true, nullable = false)
+    private String phoneNumber;
+
     @Column(name = USER_EMAIL, unique = true, nullable = false)
     private String email;
 
@@ -43,4 +46,7 @@ public class M_User {
 
     @Column(name = USER_CREATED_AT, updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(name = USER_IS_ADMIN)
+    private Boolean isAdmin = false;
 }
