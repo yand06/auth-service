@@ -3,9 +3,11 @@ package com.laawe.purchasing.auth.config.constant;
 public class AppConstant {
 
     public static final String BASE_API_URL = "/api/v1/auth";
+
     public static final String LOGIN_API = "/user/login";
     public static final String LOGOUT_API = "/user/logout";
     public static final String PROFILE_API = "/user/me";
+    public static final String REFRESH_TOKEN_API = "/user/refresh-token";
 
     public static final String PUBLIC = "public";
 
@@ -28,9 +30,11 @@ public class AppConstant {
 
     public static final String HEADER_BEARER = "Bearer ";
     public static final String HEADER_X_USER_ID = "X-User-ID";
-    public static final String HEADER_AUTHORIZATION = "Authorization ";
+    public static final String HEADER_AUTHORIZATION = "Authorization";
     public static final String BL_PREFIX = "BLACKLIST:";
     public static final String EMPTY = "";
     public static final String SUCCESS_STATUS = "SUCCESS";
     public static final String ERROR_STATUS = "ERROR";
+    public static final Long ONE_HOURS_IN_MILLISECONDS = 3600000L;
+    public static final Long SEVEN_DAYS_IN_MILLISECONDS = 604800000L;
 }

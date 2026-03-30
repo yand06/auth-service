@@ -2,6 +2,7 @@ package com.laawe.purchasing.auth.controller;
 
 import com.laawe.purchasing.auth.model.request.LoginRequest;
 import com.laawe.purchasing.auth.model.request.LogoutRequest;
+import com.laawe.purchasing.auth.model.request.RefreshTokenRequest;
 import com.laawe.purchasing.auth.model.response.GenericApiResponse;
 import com.laawe.purchasing.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,13 +24,25 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping(LOGIN_API)
-    public ResponseEntity<GenericApiResponse<?>> login(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<GenericApiResponse<?>> login(
+            @Valid @RequestBody LoginRequest loginRequest
+    ) {
         return ResponseEntity.ok(authService.getLogin(loginRequest));
     }
 
     @PostMapping(LOGOUT_API)
-    public ResponseEntity<GenericApiResponse<?>> logout(@Valid @RequestBody LogoutRequest logoutRequest, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<GenericApiResponse<?>> logout(
+            @Valid @RequestBody LogoutRequest logoutRequest,
+            HttpServletRequest httpServletRequest
+    ) {
         return ResponseEntity.ok(authService.getLogout(logoutRequest, httpServletRequest));
+    }
+
+    @PostMapping(REFRESH_TOKEN_API)
+    public ResponseEntity<GenericApiResponse<?>> refreshToken(
+            @Valid @RequestBody RefreshTokenRequest refreshTokenRequest
+    ) {
+        return ResponseEntity.ok(authService.getRefreshToken(refreshTokenRequest));
     }
 
 }
