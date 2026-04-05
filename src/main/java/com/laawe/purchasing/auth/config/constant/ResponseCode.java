@@ -19,6 +19,7 @@ public enum ResponseCode {
     FORBIDDEN(HttpStatus.FORBIDDEN, "06", "response.code.forbidden"),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "07","response.code.unauthorized"),
     USER_NOT_ACTIVE(HttpStatus.BAD_REQUEST, "02","response.code.user_not_active"),
+    USER_DELETED(HttpStatus.BAD_REQUEST, "02","response.code.user_deleted"),
     USERNAME_EXISTS(HttpStatus.BAD_REQUEST, "02","response.code.user_name_exists"),
     EMAIL_EXISTS(HttpStatus.BAD_REQUEST, "02","response.code.email_exists"),
     PHONE_NUMBER_EXISTS(HttpStatus.BAD_REQUEST, "02","response.code.phone_number_exists"),

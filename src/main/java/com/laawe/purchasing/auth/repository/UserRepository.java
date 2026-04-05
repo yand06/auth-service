@@ -13,7 +13,6 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<M_User, Long> {
     Optional<M_User> findByUsername(String username);
-    Optional<M_User> findByEmail(String email);
     Optional<M_User> findByIdf(UUID idf);
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
@@ -21,4 +20,10 @@ public interface UserRepository extends JpaRepository<M_User, Long> {
 
     @Query("SELECT u FROM M_User u WHERE u.username = :identifier OR u.email = :identifier OR u.phoneNumber = :identifier")
     Optional<M_User> findByIdentifier(@Param("identifier") String identifier);
+
+    @Query(value = "SELECT nextval('employee_id_seq')", nativeQuery = true)
+    Long getNextEmployeeSequence();
+
+    @Query("SELECT u.isAdmin FROM M_User u WHERE u.idf = :idf")
+    Boolean isUserAdmin(@Param("idf") UUID idf);
 }

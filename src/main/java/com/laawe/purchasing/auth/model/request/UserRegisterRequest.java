@@ -23,9 +23,17 @@ public class UserRegisterRequest {
     @NotBlank(message = "Role is required")
     private String userRole;
 
-    @NotNull(message = "Is Active is required")
-    private Boolean userIsActive;
+    @NotNull(message = "Status is required")
+    private Integer userStatus;
 
     @NotNull(message = "Is Admin is required")
     private Boolean userIsAdmin;
+
+    @NotNull(message = "Department Name is required")
+    private String userDepartmentName;
+
+    @NotNull(message = "Office Location is required")
+    private String userOfficeLocation;
+
+    private String userAvatar;
 }

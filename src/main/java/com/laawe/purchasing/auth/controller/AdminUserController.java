@@ -25,8 +25,11 @@ public class AdminUserController {
     }
 
     @PostMapping(REGISTER_API)
-    public ResponseEntity<GenericApiResponse<?>> getRegister(@Valid @RequestBody UserRegisterRequest request) {
-        return ResponseEntity.ok(adminUserService.getRegister(request));
+    public ResponseEntity<GenericApiResponse<?>> getRegister(
+            @Valid @RequestBody UserRegisterRequest request,
+            @RequestHeader(name = HEADER_X_USER_ID) String loggedInUserIdf
+    ) {
+        return ResponseEntity.ok(adminUserService.getRegister(request, loggedInUserIdf));
     }
 
 }

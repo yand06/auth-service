@@ -41,12 +41,15 @@ public class M_User {
     @JoinColumn(name = USER_ROLE_ID, nullable = false)
     private M_Role role;
 
-    @Column(name = USER_IS_ACTIVE)
-    private Boolean isActive = true;
+    @Column(name = USER_STATUS)
+    private Integer status;
 
     @Column(name = USER_CREATED_AT, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = USER_IS_ADMIN)
     private Boolean isAdmin = false;
+
+    @Column(name = USER_EMPLOYEE_ID)
+    private String employeeId;
 }

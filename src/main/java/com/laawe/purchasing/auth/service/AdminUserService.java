@@ -5,5 +5,5 @@ import com.laawe.purchasing.auth.model.response.GenericApiResponse;
 
 public interface AdminUserService {
     GenericApiResponse<?> getProfile(String loggedInUserIdf);
-    GenericApiResponse<?> getRegister(UserRegisterRequest userRegisterRequest);
+    GenericApiResponse<?> getRegister(UserRegisterRequest userRegisterRequest, String loggedInUserIdf);
 }
