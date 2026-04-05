@@ -48,8 +48,10 @@ public class AuthServiceImpl implements AuthService {
             throw new BusinessException(ResponseCode.INVALID_CREDENTIALS, Translator.toLocale(ResponseCode.INVALID_CREDENTIALS.getMessageKey()));
         }
 
-        if (!user.getIsActive()){
+        if (user.getStatus() == 2){
             throw new BusinessException(ResponseCode.USER_NOT_ACTIVE, Translator.toLocale(ResponseCode.USER_NOT_ACTIVE.getMessageKey()));
+        }else if (user.getStatus() == 3){
+            throw new BusinessException(ResponseCode.USER_DELETED, Translator.toLocale(ResponseCode.USER_DELETED.getMessageKey()));
         }
 
         // 3. Retrieve the role_name from the Role table
