@@ -7,6 +7,7 @@ import com.laawe.purchasing.auth.controller.handler.BusinessException;
 import com.laawe.purchasing.auth.model.entity.M_Role;
 import com.laawe.purchasing.auth.model.entity.M_User;
 import com.laawe.purchasing.auth.model.entity.M_User_Detail;
+import com.laawe.purchasing.auth.model.request.ChangePasswordRequest;
 import com.laawe.purchasing.auth.model.request.UserRegisterRequest;
 import com.laawe.purchasing.auth.model.response.GenericApiResponse;
 import com.laawe.purchasing.auth.model.response.ProfileResponse;
@@ -118,6 +119,37 @@ public class AdminUserServiceImpl implements AdminUserService {
         userDetailRepository.save(newUserDetail);
 
         return GenericApiResponse.success(null, "SUCCESSFULLY REGISTER USER");
+    }
+
+    @Override
+    @Transactional
+    public GenericApiResponse<?> changePassword(ChangePasswordRequest changePasswordRequest, String loggedInUserIdf) {
+
+        M_User user = userRepository.findByIdf(UUID.fromString(loggedInUserIdf))
+                .orElseThrow(() -> new BusinessException(
+                        ResponseCode.USER_NOT_FOUND,
+                        Translator.toLocale(ResponseCode.USER_NOT_FOUND.getMessageKey()))
+                );
+
+        if (!securityConfig.passwordEncoder().matches(changePasswordRequest.getCurrentPassword(), user.getPassword())){
+            throw new BusinessException(
+                    ResponseCode.INVALID_PASSWORD,
+                    Translator.toLocale(ResponseCode.INVALID_PASSWORD.getMessageKey())
+            );
+        }
+
+        if (securityConfig.passwordEncoder().matches(changePasswordRequest.getNewPassword(), user.getPassword())){
+            throw new BusinessException(
+                    ResponseCode.PASSWORD_MUST_BE_DIFFERENT,
+                    Translator.toLocale(ResponseCode.PASSWORD_MUST_BE_DIFFERENT.getMessageKey())
+            );
+        }
+
+        String newPassword = securityConfig.passwordEncoder().encode(changePasswordRequest.getNewPassword());
+        user.setPassword(newPassword);
+        userRepository.save(user);
+
+        return GenericApiResponse.success(null, "SUCCESSFULLY CHANGE PASSWORD");
     }
 
 }
