@@ -12,7 +12,7 @@ public enum ResponseCode {
 
     // --- CLIENT ERRORS ---
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "02", "response.code.bad_request"),
-    INVALID_CREDENTIALS(HttpStatus.UNAUTHORIZED, "03", "response.code.invalid_credentials"),
+    INVALID_IDENTIFIER(HttpStatus.UNAUTHORIZED, "02", "response.code.invalid_identifier"),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "04", "response.code.user_not_found"),
     ROLE_NOT_FOUND(HttpStatus.NOT_FOUND, "04", "response.code.role_not_found"),
     USER_ALREADY_EXISTS(HttpStatus.CONFLICT, "05", "response.code.user_already_exists"),
@@ -23,6 +23,8 @@ public enum ResponseCode {
     USERNAME_EXISTS(HttpStatus.BAD_REQUEST, "02","response.code.user_name_exists"),
     EMAIL_EXISTS(HttpStatus.BAD_REQUEST, "02","response.code.email_exists"),
     PHONE_NUMBER_EXISTS(HttpStatus.BAD_REQUEST, "02","response.code.phone_number_exists"),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "02","response.code.invalid_password"),
+    PASSWORD_MUST_BE_DIFFERENT(HttpStatus.BAD_REQUEST, "02","response.code.password_must_be_different"),
 
     // --- SERVER ERRORS ---
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "99", "response.code.internal_server_error");

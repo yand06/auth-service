@@ -17,6 +17,7 @@ import com.laawe.purchasing.auth.utility.TimeHelper;
 import com.nimbusds.jwt.JWTClaimsSet;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ import java.util.Map;
 
 import static com.laawe.purchasing.auth.config.constant.AppConstant.SEVEN_DAYS_IN_MILLISECONDS;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -39,13 +41,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public GenericApiResponse<LoginResponse> getLogin(LoginRequest loginRequest) {
-        // 1. Find user in Database
-        M_User user = userRepository.findByIdentifier(loginRequest.getIdentifier())
-                .orElseThrow(() -> new BusinessException(ResponseCode.USER_NOT_FOUND, Translator.toLocale(ResponseCode.USER_NOT_FOUND.getMessageKey())));
 
-        // 2. Check if password is correct
+        M_User user = userRepository.findByIdentifier(loginRequest.getIdentifier())
+                .orElseThrow(() -> new BusinessException(ResponseCode.INVALID_IDENTIFIER, Translator.toLocale(ResponseCode.INVALID_IDENTIFIER.getMessageKey())));
+
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            throw new BusinessException(ResponseCode.INVALID_CREDENTIALS, Translator.toLocale(ResponseCode.INVALID_CREDENTIALS.getMessageKey()));
+            throw new BusinessException(ResponseCode.INVALID_PASSWORD, Translator.toLocale(ResponseCode.INVALID_PASSWORD.getMessageKey()));
         }
 
         if (user.getStatus() == 2){
@@ -54,16 +55,12 @@ public class AuthServiceImpl implements AuthService {
             throw new BusinessException(ResponseCode.USER_DELETED, Translator.toLocale(ResponseCode.USER_DELETED.getMessageKey()));
         }
 
-        // 3. Retrieve the role_name from the Role table
         String roleName = user.getRole().getName();
-
-        // 4. Setup claims for the JWT
         Map<String, Object> claims = Map.of(
                 "user_id", user.getIdf().toString(),
                 "roles", roleName
         );
 
-        // 5. Generate Token
         TokenInfo token = jwtService.generateToken(user.getUsername(), claims);
         TokenInfo refreshToken = jwtService.generateRefreshToken(user.getUsername(), claims);
         Instant userExpiresIn = TimeHelper.toInstant(token.expiresTime());
@@ -85,7 +82,6 @@ public class AuthServiceImpl implements AuthService {
                 Duration.ofMillis(SEVEN_DAYS_IN_MILLISECONDS)
         );
 
-        // 6. Return response DTO
         return GenericApiResponse.success(data, "LOGIN SUCCESSFULLY");
     }
 

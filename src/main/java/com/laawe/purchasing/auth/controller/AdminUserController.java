@@ -1,5 +1,6 @@
 package com.laawe.purchasing.auth.controller;
 
+import com.laawe.purchasing.auth.model.request.ChangePasswordRequest;
 import com.laawe.purchasing.auth.model.request.UserRegisterRequest;
 import com.laawe.purchasing.auth.model.response.GenericApiResponse;
 import com.laawe.purchasing.auth.service.AdminUserService;
@@ -30,6 +31,14 @@ public class AdminUserController {
             @RequestHeader(name = HEADER_X_USER_ID) String loggedInUserIdf
     ) {
         return ResponseEntity.ok(adminUserService.getRegister(request, loggedInUserIdf));
+    }
+
+    @PatchMapping(CHANGE_PASSWORD_API)
+    public ResponseEntity<GenericApiResponse<?>> changePassword(
+            @Valid @RequestBody ChangePasswordRequest changePasswordRequest,
+            @RequestHeader(name = HEADER_X_USER_ID) String loggedInUserIdf
+    ) {
+        return ResponseEntity.ok(adminUserService.changePassword(changePasswordRequest, loggedInUserIdf));
     }
 
 }

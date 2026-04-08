@@ -9,6 +9,7 @@ public class AppConstant {
     public static final String PROFILE_API = "/user/me";
     public static final String REGISTER_API = "/user/register";
     public static final String REFRESH_TOKEN_API = "/user/refresh-token";
+    public static final String CHANGE_PASSWORD_API = "/user/me/change-password";
 
     public static final String PUBLIC = "public";
 
