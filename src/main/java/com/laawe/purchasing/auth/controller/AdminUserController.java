@@ -41,4 +41,14 @@ public class AdminUserController {
         return ResponseEntity.ok(adminUserService.changePassword(changePasswordRequest, loggedInUserIdf));
     }
 
+
+    @GetMapping(ALL_USERS_API)
+    public ResponseEntity<GenericApiResponse<?>> getAllUsers(
+            @RequestHeader(name = HEADER_X_USER_ID) String loggedInUserIdf,
+            @RequestParam(defaultValue = DEFAULT_PAGE) int page,
+            @RequestParam(defaultValue = DEFAULT_SIZE) int size
+    ) {
+        return ResponseEntity.ok(adminUserService.getAllUsers(loggedInUserIdf, page, size));
+    }
+
 }
