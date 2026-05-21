@@ -10,6 +10,7 @@ public class AppConstant {
     public static final String REGISTER_API = "/user/register";
     public static final String REFRESH_TOKEN_API = "/user/refresh-token";
     public static final String CHANGE_PASSWORD_API = "/user/me/change-password";
+    public static final String ALL_USERS_API = "/user";
 
     public static final String PUBLIC = "public";
 
@@ -54,8 +55,11 @@ public class AppConstant {
     public static final String ERROR_STATUS = "ERROR";
     public static final Long ONE_HOURS_IN_MILLISECONDS = 3600000L;
     public static final Long SEVEN_DAYS_IN_MILLISECONDS = 604800000L;
+    public static final String DEFAULT_PAGE = "1";
+    public static final String DEFAULT_SIZE = "10";
     public static final String TEXT = "TEXT";
 
-    public static final String SUPERUSER_PASSWORD = "admin1234";
+    public static final String SUPERUSER_PASSWORD = "ADMIN12345";
+    public static final String SUPERUSER_ROLE_NAME = "SUPERUSER";
     public static final String DEFAULT_PASSWORD = "12345678";
 }

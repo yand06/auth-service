@@ -32,6 +32,10 @@ public final class GeneralHelper {
         return userRepository.isUserAdmin(UUID.fromString(userIdf));
     }
 
+    public static String isSuperUser(UUID userId, UserRepository userRepository) {
+        return userRepository.isSuperUser(userId);
+    }
+
     public static String generateEmployeeId(String departmentName, String roleName, UserRepository userRepository) {
         String deptCode = extractCode(departmentName);
         String roleCode = extractCode(roleName);

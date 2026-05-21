@@ -8,4 +8,5 @@ public interface AdminUserService {
     GenericApiResponse<?> getProfile(String loggedInUserIdf);
     GenericApiResponse<?> getRegister(UserRegisterRequest userRegisterRequest, String loggedInUserIdf);
     GenericApiResponse<?> changePassword(ChangePasswordRequest changePasswordRequest, String loggedInUserIdf);
+    GenericApiResponse<?> getAllUsers(String loggedInUserIdf, int page, int size);
 }

@@ -9,6 +9,7 @@ import com.laawe.purchasing.auth.model.entity.M_User;
 import com.laawe.purchasing.auth.model.entity.M_User_Detail;
 import com.laawe.purchasing.auth.model.request.ChangePasswordRequest;
 import com.laawe.purchasing.auth.model.request.UserRegisterRequest;
+import com.laawe.purchasing.auth.model.response.AllUsersDTO;
 import com.laawe.purchasing.auth.model.response.GenericApiResponse;
 import com.laawe.purchasing.auth.model.response.ProfileResponse;
 import com.laawe.purchasing.auth.repository.RoleRepository;
@@ -17,6 +18,12 @@ import com.laawe.purchasing.auth.repository.UserRepository;
 import com.laawe.purchasing.auth.service.AdminUserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,10 +31,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.laawe.purchasing.auth.config.constant.AppConstant.DEFAULT_PASSWORD;
+import static com.laawe.purchasing.auth.config.constant.AppConstant.SUPERUSER_ROLE_NAME;
 import static com.laawe.purchasing.auth.utility.GeneralHelper.*;
+import static org.springframework.data.web.config.EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
+@EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO)
 public class AdminUserServiceImpl implements AdminUserService {
 
     private final UserRepository userRepository;
@@ -150,6 +161,34 @@ public class AdminUserServiceImpl implements AdminUserService {
         userRepository.save(user);
 
         return GenericApiResponse.success(null, "SUCCESSFULLY CHANGE PASSWORD");
+    }
+
+    @Override
+    public GenericApiResponse<?> getAllUsers(String loggedInUserIdf, int page, int size) {
+        if (!isSuperUser(UUID.fromString(loggedInUserIdf), userRepository).equals(SUPERUSER_ROLE_NAME)){
+            throw new BusinessException(ResponseCode.FORBIDDEN, Translator.toLocale(ResponseCode.FORBIDDEN.getMessageKey()));
+        }
+
+        if (page < 1) page = 1;
+        if (size > 100) size = 100;
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createdAt").descending());
+
+        Page<M_User> usersData = userRepository.findAllIsSuperUsers(pageable);
+
+        Page<AllUsersDTO> data = usersData.map(user -> new AllUsersDTO(
+                user.getIdf(),
+                user.getFullName(),
+                user.getEmail(),
+                user.getPhoneNumber(),
+                user.getRole().getName(),
+                user.getEmployeeId(),
+                user.getUsername(),
+                extractUserStatus(user.getStatus()),
+                user.getIsAdmin(),
+                user.getCreatedAt()
+        ));
+
+        return GenericApiResponse.success(data, "SUCCESSFULLY GET ALL USERS");
     }
 
 }
