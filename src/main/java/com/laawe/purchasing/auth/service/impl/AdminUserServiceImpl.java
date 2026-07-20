@@ -4,6 +4,7 @@ import com.laawe.purchasing.auth.config.SecurityConfig;
 import com.laawe.purchasing.auth.config.constant.ResponseCode;
 import com.laawe.purchasing.auth.config.i18n.Translator;
 import com.laawe.purchasing.auth.controller.handler.BusinessException;
+import com.laawe.purchasing.auth.model.dto.UserProfileDTO;
 import com.laawe.purchasing.auth.model.entity.M_Role;
 import com.laawe.purchasing.auth.model.entity.M_User;
 import com.laawe.purchasing.auth.model.entity.M_User_Detail;
@@ -27,7 +28,6 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.laawe.purchasing.auth.config.constant.AppConstant.DEFAULT_PASSWORD;
@@ -49,30 +49,31 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public GenericApiResponse<ProfileResponse> getProfile(String loggedInUserIdf) {
 
-        M_User user = userRepository.findByIdf(UUID.fromString(loggedInUserIdf))
+        log.info("RECEIVE REQUEST TO GET PROFILE {}", loggedInUserIdf);
+
+        UserProfileDTO userDetail = userDetailRepository.findProfileByUserIdf(UUID.fromString(loggedInUserIdf))
                 .orElseThrow(() -> new BusinessException(
                         ResponseCode.USER_NOT_FOUND,
                         Translator.toLocale(ResponseCode.USER_NOT_FOUND.getMessageKey()))
                 );
 
-        Optional<M_User_Detail> userDetail = Optional.of(userDetailRepository.findByUser(user)
-                .orElseThrow(() -> new BusinessException(
-                        ResponseCode.USER_NOT_FOUND, Translator.toLocale(ResponseCode.USER_NOT_FOUND.getMessageKey())))
-        );
+        log.info("SUCCESS GET PROFILE {}", loggedInUserIdf);
 
-        return GenericApiResponse.success(new ProfileResponse()
-                .setUserIdf(user.getIdf())
-                .setUserFullName(user.getFullName())
-                .setUserEmail(user.getEmail())
-                .setUserRoleName(user.getRole().getName())
-                .setUserEmployeeId(user.getEmployeeId())
-                .setUserName(user.getUsername()).setUserPhoneNumber(user.getPhoneNumber())
-                .setUserStatus(extractUserStatus(user.getStatus()))
-                .setUserIsAdmin(user.getIsAdmin())
-                .setUserDepartmentName(userDetail.map(M_User_Detail::getUserDetailDepartmentName).orElse(null))
-                .setUserAvatar(userDetail.map(M_User_Detail::getUserAvatar).orElse(null))
-                .setUserJoinDate(user.getCreatedAt())
-                .setUserOfficeLocation(userDetail.map(M_User_Detail::getUserOfficeLocation).orElse(null))
+        return GenericApiResponse.success(
+                new ProfileResponse()
+                        .setUserIdf(userDetail.userIdf())
+                        .setUserFullName(userDetail.fullName())
+                        .setUserEmail(userDetail.email())
+                        .setUserRoleName(userDetail.roleName())
+                        .setUserEmployeeId(userDetail.employeeId())
+                        .setUserName(userDetail.username())
+                        .setUserPhoneNumber(userDetail.phoneNumber())
+                        .setUserStatus(extractUserStatus(userDetail.status()))
+                        .setUserIsAdmin(userDetail.isAdmin())
+                        .setUserDepartmentName(userDetail.departmentName())
+                        .setUserAvatar(userDetail.avatar())
+                        .setUserJoinDate(userDetail.createdAt())
+                        .setUserOfficeLocation(userDetail.officeLocation())
                 , "SUCCESSFULLY GET PROFILE DATA");
     }
 
@@ -80,19 +81,19 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Transactional
     public GenericApiResponse<?> getRegister(UserRegisterRequest userRegisterRequest, String loggedInUserIdf) {
 
-        if (!isUserAdmin(loggedInUserIdf, userRepository)){
+        if (!isUserAdmin(loggedInUserIdf, userRepository)) {
             throw new BusinessException(ResponseCode.FORBIDDEN, Translator.toLocale(ResponseCode.FORBIDDEN.getMessageKey()));
         }
 
-        if(userRepository.existsByUsername(userRegisterRequest.getUserUsername())){
+        if (userRepository.existsByUsername(userRegisterRequest.getUserUsername())) {
             throw new BusinessException(ResponseCode.USERNAME_EXISTS, Translator.toLocale(ResponseCode.USERNAME_EXISTS.getMessageKey()));
         }
 
-        if (userRepository.existsByEmail(userRegisterRequest.getUserEmail())){
+        if (userRepository.existsByEmail(userRegisterRequest.getUserEmail())) {
             throw new BusinessException(ResponseCode.EMAIL_EXISTS, Translator.toLocale(ResponseCode.EMAIL_EXISTS.getMessageKey()));
         }
 
-        if (userRepository.existsByPhoneNumber(userRegisterRequest.getUserPhoneNumber())){
+        if (userRepository.existsByPhoneNumber(userRegisterRequest.getUserPhoneNumber())) {
             throw new BusinessException(ResponseCode.PHONE_NUMBER_EXISTS, Translator.toLocale(ResponseCode.PHONE_NUMBER_EXISTS.getMessageKey()));
         }
 
@@ -142,14 +143,14 @@ public class AdminUserServiceImpl implements AdminUserService {
                         Translator.toLocale(ResponseCode.USER_NOT_FOUND.getMessageKey()))
                 );
 
-        if (!securityConfig.passwordEncoder().matches(changePasswordRequest.getCurrentPassword(), user.getPassword())){
+        if (!securityConfig.passwordEncoder().matches(changePasswordRequest.getCurrentPassword(), user.getPassword())) {
             throw new BusinessException(
                     ResponseCode.INVALID_PASSWORD,
                     Translator.toLocale(ResponseCode.INVALID_PASSWORD.getMessageKey())
             );
         }
 
-        if (securityConfig.passwordEncoder().matches(changePasswordRequest.getNewPassword(), user.getPassword())){
+        if (securityConfig.passwordEncoder().matches(changePasswordRequest.getNewPassword(), user.getPassword())) {
             throw new BusinessException(
                     ResponseCode.PASSWORD_MUST_BE_DIFFERENT,
                     Translator.toLocale(ResponseCode.PASSWORD_MUST_BE_DIFFERENT.getMessageKey())
@@ -165,7 +166,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public GenericApiResponse<?> getAllUsers(String loggedInUserIdf, int page, int size) {
-        if (!isSuperUser(UUID.fromString(loggedInUserIdf), userRepository).equals(SUPERUSER_ROLE_NAME)){
+        if (!isSuperUser(UUID.fromString(loggedInUserIdf), userRepository).equals(SUPERUSER_ROLE_NAME)) {
             throw new BusinessException(ResponseCode.FORBIDDEN, Translator.toLocale(ResponseCode.FORBIDDEN.getMessageKey()));
         }
 

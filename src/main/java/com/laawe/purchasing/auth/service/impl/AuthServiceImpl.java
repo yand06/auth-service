@@ -42,6 +42,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public GenericApiResponse<LoginResponse> getLogin(LoginRequest loginRequest) {
 
+        log.info("RECEIVE REQUEST LOGIN FOR IDENTIFIER {}", loginRequest.getIdentifier());
+
         M_User user = userRepository.findByIdentifier(loginRequest.getIdentifier())
                 .orElseThrow(() -> new BusinessException(ResponseCode.INVALID_IDENTIFIER, Translator.toLocale(ResponseCode.INVALID_IDENTIFIER.getMessageKey())));
 
@@ -81,6 +83,8 @@ public class AuthServiceImpl implements AuthService {
                 refreshToken.token(),
                 Duration.ofMillis(SEVEN_DAYS_IN_MILLISECONDS)
         );
+
+        log.info("SUCCESS LOGIN FOR IDENTIFIER {}", loginRequest.getIdentifier());
 
         return GenericApiResponse.success(data, "LOGIN SUCCESSFULLY");
     }

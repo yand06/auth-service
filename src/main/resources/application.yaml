@@ -17,7 +17,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
   data:
     redis:
       host: ${REDIS_HOST}
@@ -28,3 +28,12 @@ spring:
 jwt:
   secret: ${JWT_SECRET}
   expiration: 3600000
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
