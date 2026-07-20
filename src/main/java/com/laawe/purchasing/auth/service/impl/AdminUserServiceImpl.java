@@ -4,13 +4,14 @@ import com.laawe.purchasing.auth.config.SecurityConfig;
 import com.laawe.purchasing.auth.config.constant.ResponseCode;
 import com.laawe.purchasing.auth.config.i18n.Translator;
 import com.laawe.purchasing.auth.controller.handler.BusinessException;
+import com.laawe.purchasing.auth.model.dto.AllUsersDTO;
 import com.laawe.purchasing.auth.model.dto.UserProfileDTO;
 import com.laawe.purchasing.auth.model.entity.M_Role;
 import com.laawe.purchasing.auth.model.entity.M_User;
 import com.laawe.purchasing.auth.model.entity.M_User_Detail;
 import com.laawe.purchasing.auth.model.request.ChangePasswordRequest;
 import com.laawe.purchasing.auth.model.request.UserRegisterRequest;
-import com.laawe.purchasing.auth.model.response.AllUsersDTO;
+import com.laawe.purchasing.auth.model.response.AllUsersResponse;
 import com.laawe.purchasing.auth.model.response.GenericApiResponse;
 import com.laawe.purchasing.auth.model.response.ProfileResponse;
 import com.laawe.purchasing.auth.repository.RoleRepository;
@@ -60,21 +61,23 @@ public class AdminUserServiceImpl implements AdminUserService {
         log.info("SUCCESS GET PROFILE {}", loggedInUserIdf);
 
         return GenericApiResponse.success(
-                new ProfileResponse()
-                        .setUserIdf(userDetail.userIdf())
-                        .setUserFullName(userDetail.fullName())
-                        .setUserEmail(userDetail.email())
-                        .setUserRoleName(userDetail.roleName())
-                        .setUserEmployeeId(userDetail.employeeId())
-                        .setUserName(userDetail.username())
-                        .setUserPhoneNumber(userDetail.phoneNumber())
-                        .setUserStatus(extractUserStatus(userDetail.status()))
-                        .setUserIsAdmin(userDetail.isAdmin())
-                        .setUserDepartmentName(userDetail.departmentName())
-                        .setUserAvatar(userDetail.avatar())
-                        .setUserJoinDate(userDetail.createdAt())
-                        .setUserOfficeLocation(userDetail.officeLocation())
-                , "SUCCESSFULLY GET PROFILE DATA");
+                new ProfileResponse(
+                        userDetail.userIdf(),
+                        userDetail.username(),
+                        userDetail.fullName(),
+                        userDetail.email(),
+                        userDetail.phoneNumber(),
+                        extractUserStatus(userDetail.status()),
+                        userDetail.isAdmin(),
+                        userDetail.roleName(),
+                        userDetail.employeeId(),
+                        userDetail.departmentName(),
+                        userDetail.avatar(),
+                        userDetail.createdAt(),
+                        userDetail.officeLocation()
+                ),
+                "SUCCESSFULLY GET PROFILE DATA"
+        );
     }
 
     @Override
@@ -166,6 +169,9 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public GenericApiResponse<?> getAllUsers(String loggedInUserIdf, int page, int size) {
+
+        log.info("RECEIVED ALL USERS REQUEST BY USERS {}", loggedInUserIdf);
+
         if (!isSuperUser(UUID.fromString(loggedInUserIdf), userRepository).equals(SUPERUSER_ROLE_NAME)) {
             throw new BusinessException(ResponseCode.FORBIDDEN, Translator.toLocale(ResponseCode.FORBIDDEN.getMessageKey()));
         }
@@ -174,20 +180,22 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (size > 100) size = 100;
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createdAt").descending());
 
-        Page<M_User> usersData = userRepository.findAllIsSuperUsers(pageable);
+        Page<AllUsersDTO> usersData = userRepository.findAllIsSuperUsers(pageable);
 
-        Page<AllUsersDTO> data = usersData.map(user -> new AllUsersDTO(
-                user.getIdf(),
-                user.getFullName(),
-                user.getEmail(),
-                user.getPhoneNumber(),
-                user.getRole().getName(),
-                user.getEmployeeId(),
-                user.getUsername(),
-                extractUserStatus(user.getStatus()),
-                user.getIsAdmin(),
-                user.getCreatedAt()
+        Page<AllUsersResponse> data = usersData.map(user -> new AllUsersResponse(
+                user.idf(),
+                user.fullName(),
+                user.email(),
+                user.phoneNumber(),
+                user.roleName(),
+                user.employeeId(),
+                user.username(),
+                extractUserStatus(user.statusCode()),
+                user.isAdmin(),
+                user.createdAt()
         ));
+
+        log.info("SUCCESS GET ALL USERS DATA BY USERS {}", loggedInUserIdf);
 
         return GenericApiResponse.success(data, "SUCCESSFULLY GET ALL USERS");
     }

@@ -3,7 +3,7 @@ package com.laawe.purchasing.auth.model.response;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record AllUsersDTO (
+public record AllUsersResponse(
         UUID idf,
         String fullName,
         String email,
@@ -14,4 +14,5 @@ public record AllUsersDTO (
         String status,
         Boolean isAdmin,
         LocalDateTime createdAt
-) {}
+) {
+}
