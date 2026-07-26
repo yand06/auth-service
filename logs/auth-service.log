@@ -1578,3 +1578,92 @@ Caused by: org.hibernate.query.SemanticException: Missing constructor for type '
                 org.hibernate.SQL - select mud1_0.user_detail_department_name,mud1_0.user_avatar,mud1_0.user_office_location,u1_0.user_idf,u1_0.user_full_name,u1_0.user_email,u1_0.user_employee_id,u1_0.user_username,u1_0.user_phone_number,u1_0.user_status,u1_0.user_is_admin,u1_0.user_created_at,r1_0.role_name from public.m_user_detail mud1_0 join public.m_user u1_0 on u1_0.user_id=mud1_0.user_id join public.m_role r1_0 on r1_0.role_id=u1_0.user_role_id where u1_0.user_idf=?
 2026-07-20 20:06:59.214 [http-nio-8081-exec-6] INFO  [TraceID: 6a5e1d73d382c8cdc922cd5a181c5cb6, SpanID: 6baf66778676e010]
                 c.l.p.a.s.impl.AdminUserServiceImpl - SUCCESS GET PROFILE bf84949f-28a5-47e7-8408-f09019b8ebb2
+2026-07-20 20:10:18.906 [background-preinit] INFO  [TraceID: , SpanID: ]
+                o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2026-07-20 20:10:18.951 [main] INFO  [TraceID: , SpanID: ]
+                c.l.p.auth.AuthServiceApplication - Starting AuthServiceApplication using Java 21.0.9 with PID 31100 (C:\My-Portfolio\authentication\target\classes started by Asani in C:\My-Portfolio\authentication)
+2026-07-20 20:10:18.952 [main] INFO  [TraceID: , SpanID: ]
+                c.l.p.auth.AuthServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-20 20:10:20.041 [main] INFO  [TraceID: , SpanID: ]
+                o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-07-20 20:10:20.042 [main] INFO  [TraceID: , SpanID: ]
+                o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-20 20:10:20.176 [main] INFO  [TraceID: , SpanID: ]
+                o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 126 ms. Found 3 JPA repository interfaces.
+2026-07-20 20:10:20.188 [main] INFO  [TraceID: , SpanID: ]
+                o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-07-20 20:10:20.189 [main] INFO  [TraceID: , SpanID: ]
+                o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-07-20 20:10:20.204 [main] INFO  [TraceID: , SpanID: ]
+                o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.laawe.purchasing.auth.repository.RoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-20 20:10:20.204 [main] INFO  [TraceID: , SpanID: ]
+                o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.laawe.purchasing.auth.repository.UserDetailRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-20 20:10:20.204 [main] INFO  [TraceID: , SpanID: ]
+                o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.laawe.purchasing.auth.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-20 20:10:20.204 [main] INFO  [TraceID: , SpanID: ]
+                o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+2026-07-20 20:10:20.872 [main] INFO  [TraceID: , SpanID: ]
+                o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-07-20 20:10:20.882 [main] INFO  [TraceID: , SpanID: ]
+                o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+2026-07-20 20:10:20.884 [main] INFO  [TraceID: , SpanID: ]
+                o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-07-20 20:10:20.884 [main] INFO  [TraceID: , SpanID: ]
+                o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.36]
+2026-07-20 20:10:20.944 [main] INFO  [TraceID: , SpanID: ]
+                o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-07-20 20:10:20.945 [main] INFO  [TraceID: , SpanID: ]
+                o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1961 ms
+2026-07-20 20:10:21.285 [main] INFO  [TraceID: , SpanID: ]
+                o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-07-20 20:10:21.320 [main] INFO  [TraceID: , SpanID: ]
+                org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.8.Final
+2026-07-20 20:10:21.344 [main] INFO  [TraceID: , SpanID: ]
+                o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-07-20 20:10:21.548 [main] INFO  [TraceID: , SpanID: ]
+                o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-20 20:10:21.571 [main] INFO  [TraceID: , SpanID: ]
+                com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-07-20 20:10:21.705 [main] INFO  [TraceID: , SpanID: ]
+                com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6fd2acf5
+2026-07-20 20:10:21.706 [main] INFO  [TraceID: , SpanID: ]
+                com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-07-20 20:10:21.758 [main] INFO  [TraceID: , SpanID: ]
+                o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.14
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-20 20:10:22.581 [main] INFO  [TraceID: , SpanID: ]
+                o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-20 20:10:22.844 [main] INFO  [TraceID: , SpanID: ]
+                o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-20 20:10:23.138 [main] INFO  [TraceID: , SpanID: ]
+                o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-07-20 20:10:24.120 [main] WARN  [TraceID: , SpanID: ]
+                o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-07-20 20:10:24.456 [main] INFO  [TraceID: , SpanID: ]
+                o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-07-20 20:10:24.990 [main] INFO  [TraceID: , SpanID: ]
+                o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
+2026-07-20 20:10:25.010 [main] INFO  [TraceID: , SpanID: ]
+                o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-07-20 20:10:25.022 [main] INFO  [TraceID: , SpanID: ]
+                c.l.p.auth.AuthServiceApplication - Started AuthServiceApplication in 6.571 seconds (process running for 7.024)
+2026-07-20 20:10:28.535 [http-nio-8081-exec-1] INFO  [TraceID: , SpanID: ]
+                o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-20 20:10:28.535 [http-nio-8081-exec-1] INFO  [TraceID: , SpanID: ]
+                o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-07-20 20:10:28.538 [http-nio-8081-exec-1] INFO  [TraceID: , SpanID: ]
+                o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2026-07-20 20:10:28.605 [http-nio-8081-exec-1] INFO  [TraceID: 6a5e1e44fc012f76ffe27ed7a69a8e9a, SpanID: eb050e17b37e26d1]
+                c.l.p.a.s.impl.AdminUserServiceImpl - RECEIVED ALL USERS REQUEST BY USERS bf84949f-28a5-47e7-8408-f09019b8ebb2
+2026-07-20 20:10:28.655 [http-nio-8081-exec-1] DEBUG [TraceID: 6a5e1e44fc012f76ffe27ed7a69a8e9a, SpanID: eb050e17b37e26d1]
+                org.hibernate.SQL - select r1_0.role_name from public.m_user mu1_0 join public.m_role r1_0 on r1_0.role_id=mu1_0.user_role_id where mu1_0.user_idf=? and r1_0.role_name='SUPERUSER'
+2026-07-20 20:10:28.688 [http-nio-8081-exec-1] DEBUG [TraceID: 6a5e1e44fc012f76ffe27ed7a69a8e9a, SpanID: eb050e17b37e26d1]
+                org.hibernate.SQL - select mu1_0.user_idf,mu1_0.user_full_name,mu1_0.user_email,mu1_0.user_phone_number,r1_0.role_name,mu1_0.user_employee_id,mu1_0.user_username,mu1_0.user_status,mu1_0.user_is_admin,mu1_0.user_created_at from public.m_user mu1_0 join public.m_role r1_0 on r1_0.role_id=mu1_0.user_role_id where r1_0.role_name<>'SUPERUSER' order by mu1_0.user_created_at desc fetch first ? rows only
+2026-07-20 20:10:28.696 [http-nio-8081-exec-1] INFO  [TraceID: 6a5e1e44fc012f76ffe27ed7a69a8e9a, SpanID: eb050e17b37e26d1]
+                c.l.p.a.s.impl.AdminUserServiceImpl - SUCCESS GET ALL USERS DATA BY USERS bf84949f-28a5-47e7-8408-f09019b8ebb2
