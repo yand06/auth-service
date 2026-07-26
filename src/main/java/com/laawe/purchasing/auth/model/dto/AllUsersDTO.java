@@ -13,6 +13,8 @@ public record AllUsersDTO(
         String username,
         Integer statusCode,
         Boolean isAdmin,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        String userDetailDepartmentName,
+        String userOfficeLocation
 ) {
 }

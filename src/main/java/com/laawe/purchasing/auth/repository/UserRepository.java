@@ -36,9 +36,16 @@ public interface UserRepository extends JpaRepository<M_User, Long> {
     @Query("SELECT u.role.name FROM M_User u WHERE u.idf = :idf and u.role.name = 'SUPERUSER'")
     String isSuperUser(@Param("idf") UUID idf);
 
-    @Query("SELECT new com.laawe.purchasing.auth.model.dto.AllUsersDTO(" +
-            "u.idf, u.fullName, u.email, u.phoneNumber, r.name, " +
-            "u.employeeId, u.username, u.status, u.isAdmin, u.createdAt) " +
-            "FROM M_User u JOIN u.role r WHERE r.name <> 'SUPERUSER'")
+    @Query("""
+                SELECT new com.laawe.purchasing.auth.model.dto.AllUsersDTO(
+                    u.idf, u.fullName, u.email, u.phoneNumber, r.name,
+                    u.employeeId, u.username, u.status, u.isAdmin, u.createdAt,
+                    ud.userDetailDepartmentName, ud.userOfficeLocation
+                )
+                FROM M_User u
+                LEFT JOIN u.role r
+                LEFT JOIN u.userDetail ud
+                WHERE r.name <> 'SUPERUSER'
+            """)
     Page<AllUsersDTO> findAllIsSuperUsers(Pageable pageable);
 }

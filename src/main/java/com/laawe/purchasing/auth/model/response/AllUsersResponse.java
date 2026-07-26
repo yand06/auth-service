@@ -12,6 +12,8 @@ public record AllUsersResponse(
         String employeeId,
         String username,
         String status,
+        String departmentName,
+        String officeLocation,
         Boolean isAdmin,
         LocalDateTime createdAt
 ) {

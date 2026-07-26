@@ -2,14 +2,16 @@ package com.laawe.purchasing.auth.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.UUID;
+
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static com.laawe.purchasing.auth.config.constant.AppConstant.*;
 
 @Entity
 @Table(name = TABLE_USER, schema = PUBLIC)
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -40,6 +42,9 @@ public class M_User {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = USER_ROLE_ID, nullable = false)
     private M_Role role;
+
+    @OneToOne(mappedBy = USER)
+    private M_User_Detail userDetail;
 
     @Column(name = USER_STATUS)
     private Integer status;

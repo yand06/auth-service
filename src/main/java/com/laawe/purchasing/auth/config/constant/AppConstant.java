@@ -62,4 +62,5 @@ public class AppConstant {
     public static final String SUPERUSER_PASSWORD = "ADMIN12345";
     public static final String SUPERUSER_ROLE_NAME = "SUPERUSER";
     public static final String DEFAULT_PASSWORD = "12345678";
+    public static final String USER = "user";
 }

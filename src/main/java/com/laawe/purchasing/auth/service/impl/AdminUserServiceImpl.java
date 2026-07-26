@@ -191,6 +191,8 @@ public class AdminUserServiceImpl implements AdminUserService {
                 user.employeeId(),
                 user.username(),
                 extractUserStatus(user.statusCode()),
+                user.userDetailDepartmentName(),
+                user.userOfficeLocation(),
                 user.isAdmin(),
                 user.createdAt()
         ));
